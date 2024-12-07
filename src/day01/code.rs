@@ -1,30 +1,16 @@
-use std::fs::File;
-use std::io::{self, BufRead};
+use std::io::{self};
+use crate::utils;
 
 pub fn a() -> io::Result<()> {
-
-    let relative_path = "src/day01/data.txt";
-    let absolute_path = std::env::current_dir()?.join(relative_path);
-
-    let file = match File::open(absolute_path) {
-        Ok(f) => f,
-        Err(e) => {
-            println!("Failed to open file: {}", e);
-            return Err(e);
-        }
-    };
-    
-    let reader = io::BufReader::new(file);
-    
-    let lines: Vec<String> = reader.lines().collect::<Result<_, _>>()?;
+    let absolute_path = std::env::current_dir()?.join("src/day01/data.txt");
+    let lines:Vec<String> = utils::helpers::get_file_as_lines(absolute_path)?;
     
     let mut first_set: Vec<i32> = Vec::new();
     let mut second_set: Vec<i32> = Vec::new();
 
     for line in &lines {
         let words: Vec<&str> = line.split_whitespace().collect();
-        
-        // Access words by index
+
         let left_str:  &&str = words.get(0).unwrap();
         let right_str: &&str = words.get(1).unwrap();
 
@@ -38,9 +24,6 @@ pub fn a() -> io::Result<()> {
     first_set.sort();
     second_set.sort();
 
-    println!("{:?}", first_set);
-    println!("{:?}", second_set);
-
     let zipped = first_set.iter().zip(second_set.iter());
 
     let mut distances: Vec<i32> = Vec::new();
@@ -51,6 +34,11 @@ pub fn a() -> io::Result<()> {
     let total:i32 = distances.iter().sum();
     println!("Total: {}", total);
 
+
+    Ok(())
+}
+
+pub fn b() -> io::Result<()> {
 
     Ok(())
 }

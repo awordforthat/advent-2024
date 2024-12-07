@@ -1,6 +1,7 @@
 mod day01;
+mod utils;
 
 fn main() {
-    println!("Hello, world!");
-    let _ =day01::code::a();
+    let _ = day01::code::a();
+    let _ = day01::code::b();
 }
