@@ -1,6 +1,10 @@
 use std::io::{self};
 use crate::utils;
+use std::collections::HashMap;
 
+/**
+ * Returns all left ints and right ints in a tuple of two sorted arrays.
+ */
 fn extract_lists() -> Result<(Vec<i32>, Vec<i32>), Box<dyn std::error::Error>> {
     let absolute_path = std::env::current_dir()?.join("src/day01/data.txt");
     let lines:Vec<String> = utils::helpers::get_file_as_lines(absolute_path)?;
@@ -45,6 +49,19 @@ pub fn a() -> io::Result<()> {
 }
 
 pub fn b() -> io::Result<()> {
+    let (first_set, second_set) = extract_lists().unwrap();
+
+    let mut sum :i32 = 0; 
+    let mut occurrences:HashMap<i32, i32> = HashMap::new();
+    for num in &first_set {
+        occurrences.insert(*num, second_set.iter().filter(|&n| *n == *num ).count() as i32);
+    }
+
+    for num in &first_set {
+        sum = sum + num * occurrences.get(&num).ok_or(0).unwrap();
+    }
+
+    println!("Total: {}", sum);
 
     Ok(())
 }
