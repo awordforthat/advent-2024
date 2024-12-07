@@ -1,7 +1,7 @@
 use std::io::{self};
 use crate::utils;
 
-pub fn a() -> io::Result<()> {
+fn extract_lists() -> Result<(Vec<i32>, Vec<i32>), Box<dyn std::error::Error>> {
     let absolute_path = std::env::current_dir()?.join("src/day01/data.txt");
     let lines:Vec<String> = utils::helpers::get_file_as_lines(absolute_path)?;
     
@@ -24,6 +24,13 @@ pub fn a() -> io::Result<()> {
     first_set.sort();
     second_set.sort();
 
+    return Ok((first_set, second_set));
+}
+
+pub fn a() -> io::Result<()> {
+
+    let (first_set, second_set) = extract_lists().unwrap();
+   
     let zipped = first_set.iter().zip(second_set.iter());
 
     let mut distances: Vec<i32> = Vec::new();
@@ -33,7 +40,6 @@ pub fn a() -> io::Result<()> {
     }
     let total:i32 = distances.iter().sum();
     println!("Total: {}", total);
-
 
     Ok(())
 }
