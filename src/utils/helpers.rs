@@ -22,3 +22,8 @@ pub fn get_file_as_lines(abs_path:PathBuf) -> Result<Vec<String>, std::io::Error
 pub fn parse_str_as_ints(line:&String) -> Vec<i32>{
    return line.split_whitespace().map(| f|  f.parse::<i32>().unwrap()).collect();
 }
+
+pub fn read_one_line_file(abs_path:PathBuf) -> String {
+    let lines = get_file_as_lines(abs_path).unwrap();
+    return lines[0].clone();
+}
